@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <title>Alternative Green Systems</title>
+      <link rel="stylesheet" href="css/greenSystems.css">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/dashboard.css">
+
+  </head>
+  <body>
+    <header>
+      Alternative Green Systems
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+        <h1>Client Information</h1>
+        <div id = "clientMain">
+          <div>
+            <table id="clientTable" class="table table-hover table-sm">
+              <thead>
+                <tr>
+                  <th>Client #</th>
+                  <th>Client Name</th>
+                  <th>Client Description</th>
+                  <th>Sector</th>
+                  <th>Sub Industry</th>
+                  <th>Headquarters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="c in clientList"
+                    :key="c.clientId"
+                    :id="'-c-' + c.clientId"
+                    @click="gotoSite(c.clientId)">
+                  <td>{{ c.clientId }}</td>
+                  <td>{{ c.clientName }}</td>
+                  <td>{{ c.clientDescription }}</td>
+                  <td>{{ c.gicsSector }}</td>
+                  <td>{{ c.gicsSubIndustry }}</td>
+                  <td>{{ c.headquarters }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h1>Comment Information</h1> <!-- end row 3, tabular data -->
+          <div>
+            <table id="commentsTable" class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Comment #</th>
+                  <th>Client Name</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="c in clientCommentsList"
+                    :key="c.commentId"
+                    :id="'-c-' + c.commentId">
+                  <td>{{ c.commentId }}</td>
+                  <td>{{ c.clientName }}</td>
+                  <td>{{ c.comment }}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+
+      <h3>Add Comment</h3>
+
+      <form @submit.prevent="handleCommentForm" id="newCommentForm">
+        <div class="form-group-row">
+          <label for="client" class="col-sm-1 col-lg-3 col-form-label">Sensor: </label>
+          <select id="client" v-model="commentForm.clientId" class="form-control col-lg-3" required>
+            <option id="clientId" v-for="c in clientList"
+            :key="c.clientId"
+            :value="c.clientId">{{ c.clientName }}</option>
+          </select>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-3 col-lg-6">
+            <label for="comment" class="col-sm-3 col-lg-6 col-form-label">Comment: </label>
+            <div class="col-lg-6 col-sm-3">
+              <input type="text" id="comment" v-model="commentForm.comment" class="form-control" required>
+            </div>
+          </div>
+        </div>
+            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button id="submitNewComment" type="submit" class="btn btn-primary" onclick="location.reload()">Save New Comment</button>
+      </form>
+    </div>
+    </main>
+    <footer>
+        Alternative Green Systems - 1275 E 10th St - Bloomington, IN 47405 - (812) 855-8100
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- moment.js via CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="js/client.app.js"></script>
+</body>
+</html>

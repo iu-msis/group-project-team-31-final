@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Alternative Green Systems</title>
+    <link rel="stylesheet" href="css/greenSystems.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+<body>
+  <header>
+    Alternative Green Systems
+  </header>
+
+  <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+  </nav>
+    <main>
+        <h1>Sites</h1>
+
+        <div id="siteMain">
+          <table id="siteTable" class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Site #</th>
+                <th>Site Name</th>
+                <th>Description</th>
+                <th>Primary Contact</th>
+                <th>Capacity</th>
+                <th>Commercial Date</th>
+                <th>Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="site in sites"
+                  :key="site.siteId"
+                  :id="'-site-' + site.siteId">
+                <td>{{ site.siteId }}</td>
+                <td>{{ site.siteName }}</td>
+                <td>{{ site.siteDescription }}</td>
+                <td>{{ site.primaryContact }}</td>
+                <td>{{ site.capacity }}</td>
+                <td>{{pretty_date(site.commercialDate) }}</td>
+                <td>{{ site.addrLine2 }} {{ site.addrCity }} {{ site.addrState }} {{ site.addrCountry }}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div> <!-- end row 3, tabular data -->
+
+      <div id="turbineSiteMain">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Site #</th>
+              <th>Turbine Serial</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="tSite in turbinesSite"
+                :key="tSite.turbineDeployedId"
+                :id="'-tSite-' + tSite.turbineDeployedId"
+                @click="gotoTurbine(tSite.turbineId)">
+              <td>{{ tSite.siteId }}</td>
+              <td>{{ tSite.serialNumber }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+    </main>
+    <footer>
+        Alternative Green Systems - 1275 E 10th St - Bloomington, IN 47405 - (812) 855-8100
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- moment.js via CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="js/site.app.js"></script>
+    <script src="js/turbineSite.app.js"></script>
+</body>
+</html>

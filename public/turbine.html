@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <title>Turbine Dashboard</title>
+  </head>
+  <body>
+
+
+    <main class="container-fluid">
+      <header>
+        Alternative Green Systems
+      </header>
+
+      <nav>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="contact.html">Contact</a>
+      </nav>
+      <div id="turbineMain">
+
+        <h1>{{turbine[0].turbineName}}</h1>
+        <p><em>{{turbine[0].turbineDescription}}
+        </em></p>
+        <div class="row">
+
+          <div class="col placeholder">
+            <h4>Capacity</h4>
+            <div class="ban">{{turbine[0].capacity}}</div>
+          </div>
+
+
+            <div class="col placeholder">
+              <div class="col">
+                <h4>Ramp Up Time</h4>
+                <div id = "rampChart" class="ban">{{turbine[0].rampUpTime}}</div>
+              </div>
+              <div class="col">
+                <h4>Maintenance Interval</h4>
+                <div class="ban">{{turbine[0].maintenanceInterval}}s</div>
+              </div>
+            </div>
+        </div>
+
+       <!-- end row 1, high-level summary information -->
+     </div>
+      <div class="row" id="turbineDeployedMain">
+        <section class="col">
+          <h2>Date Deployed</h2>
+          <div class="ban">{{pretty_date(turbineDeployed[0].deployedDate)}}</div>
+
+          <h2>Last Planned Outage Date</h2>
+          <div class="ban">{{pretty_date(turbineDeployed[0].lastPlannedOutageDate)}}</div>
+
+          <h2>Last Unplanned Outage Date</h2>
+          <div class="ban">{{pretty_date(turbineDeployed[0].lastUnplannedOutageDate)}}</div>
+        </section>
+        <div class="col placeholder">
+          <h4>Total Fired Hours</h4>
+          <div class="ban">{{turbineDeployed[0].totalFiredHours}}</div>
+          <h4>Total Starts</h4>
+          <div class="ban">{{turbineDeployed[0].totalStarts}}</div>
+        </div>
+
+      </div> <!-- end row 2, charts -->
+
+      <div class="row" id="sensorDeployedMain">
+        <table id="sensorTable" class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <tr>
+                <th scope="col" class = "tableHeader">#</th>
+                <th scope="col" class = "tableHeader">Sensor Serial Number</th>
+                <th scope="col" class = "tableHeader">Deployment Date</th>
+              </tr>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="sensorDeployed in sensorsDeployed"
+                :key="sensorDeployed.sensorDeployedId"
+                :id="'-sensorDeployed-' + sensorDeployedId"
+                @click="gotoSensor(sensorDeployed.sensorId, turbineId )">
+              <td>{{ sensorDeployed.sensorDeployedId }}</td>
+              <td>{{ sensorDeployed.serialNumber }}</td>
+              <td>{{ pretty_date(sensorDeployed.deployedDate) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+
+      <div id="turbinePostMain">
+          <h4>Add Sensor to Turbine</h4>
+
+          <form @submit.prevent="handleTurbineForm">
+            <div class="form-group row">
+              <div class="col-sm-3">
+                <label for="sensors" class="col-sm-1 col-form-label">Sensor: </label>
+                <select id="sensors" v-model="turbineForm.sensorId" class="form-control" required>
+                  <option id="sensorIdP" v-for="s in sensor"
+                  :key="s.sensorId"
+                  :value="s.sensorId">{{ s.sensorName }}</option>
+                </select>
+              </div>
+              <div class="col-sm-3 col-lg-9">
+                <label for="depDate" class="col-sm-3 col-lg-6 col-form-label">Deployed Date: </label>
+                <div class="col-lg-6 col-sm-3">
+                  <input type="date" id="depDate" class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-3 col-lg-6">
+                <label for="serialNumber" class="col-sm-1 col-lg-6 col-form-label">Serial Number: </label>
+                <input type="text" id="serialNum" v-model="turbineForm.serialNumber" class="col-lg-3 form-control" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Sensor</button>
+          </form>
+        </div>
+      <a href="index.html">Back</a>
+    </main>
+    <footer>
+        Alternative Green Systems - 1275 E 10th St - Bloomington, IN 47405 - (812) 855-8100
+    </footer>
+
+    <!-- moment.js via CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- We need Bootstrap's modal JS, thus we also need jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <script src="js/tablesort.min.js"></script>
+    <script src="js/turbine.app.js"></script>
+    <script src="js/turbineDeployed.app.js"></script>
+    <script src="js/sensorDeployed.app.js"></script>
+    <script src="js/turbinePost.app.js"></script>
+
+    <script>
+      new Tablesort(document.getElementById('sensorTable'));
+    </script>
+  </body>
+</html>
